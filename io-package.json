@@ -1,8 +1,21 @@
 {
   "common": {
-    "name": "sungrow-local",
-    "version": "0.4.0",
+    "name": "sungrow-wifi-v31-local",
+    "version": "0.5.0",
     "news": {
+      "0.5.0": {
+        "en": "Breaking: adapter renamed from sungrow-local to sungrow-wifi-v31-local; install the new adapter and create a new instance, data points are now under sungrow-wifi-v31-local.0",
+        "de": "Breaking: Adapter von sungrow-local in sungrow-wifi-v31-local umbenannt; neuen Adapter installieren und neue Instanz anlegen, die Datenpunkte liegen jetzt unter sungrow-wifi-v31-local.0",
+        "ru": "Breaking: адаптер переименован из sungrow-local в sungrow-wifi-v31-local; установите новый адаптер и создайте новый экземпляр, точки данных теперь находятся в sungrow-wifi-v31-local.0",
+        "pt": "Breaking: adaptador renomeado de sungrow-local para sungrow-wifi-v31-local; instale o novo adaptador e crie uma nova instância, os pontos de dados estão agora em sungrow-wifi-v31-local.0",
+        "nl": "Breaking: adapter hernoemd van sungrow-local naar sungrow-wifi-v31-local; installeer de nieuwe adapter en maak een nieuwe instantie aan, de datapunten staan nu onder sungrow-wifi-v31-local.0",
+        "fr": "Breaking : adaptateur renommé de sungrow-local en sungrow-wifi-v31-local ; installez le nouvel adaptateur et créez une nouvelle instance, les points de données se trouvent désormais sous sungrow-wifi-v31-local.0",
+        "it": "Breaking: adattatore rinominato da sungrow-local a sungrow-wifi-v31-local; installare il nuovo adattatore e creare una nuova istanza, i punti dati si trovano ora in sungrow-wifi-v31-local.0",
+        "es": "Breaking: adaptador renombrado de sungrow-local a sungrow-wifi-v31-local; instale el nuevo adaptador y cree una nueva instancia, los puntos de datos están ahora en sungrow-wifi-v31-local.0",
+        "pl": "Breaking: adapter zmienił nazwę z sungrow-local na sungrow-wifi-v31-local; zainstaluj nowy adapter i utwórz nową instancję, punkty danych znajdują się teraz w sungrow-wifi-v31-local.0",
+        "uk": "Breaking: адаптер перейменовано з sungrow-local на sungrow-wifi-v31-local; встановіть новий адаптер і створіть новий екземпляр, точки даних тепер знаходяться в sungrow-wifi-v31-local.0",
+        "zh-cn": "重大变更：适配器由 sungrow-local 更名为 sungrow-wifi-v31-local；请安装新适配器并创建新实例，数据点现位于 sungrow-wifi-v31-local.0 下"
+      },
       "0.4.0": {
         "en": "Node.js 22 or newer required (Node.js 20 is end-of-life); releases are now created automatically via GitHub Actions",
         "de": "Node.js 22 oder neuer erforderlich (Node.js 20 wird nicht mehr unterstützt); Releases entstehen jetzt automatisch über GitHub Actions",
@@ -30,8 +43,8 @@
       }
     },
     "titleLang": {
-      "en": "Sungrow local (Modbus TCP)",
-      "de": "Sungrow lokal (Modbus TCP)"
+      "en": "Sungrow WiFi V31 local (Modbus TCP)",
+      "de": "Sungrow WiFi V31 lokal (Modbus TCP)"
     },
     "desc": {
       "en": "Reads Sungrow inverters locally via Modbus TCP of the WiFi dongle (incl. Sungrow encryption)",
@@ -49,7 +62,7 @@
     ],
     "license": "MIT",
     "platform": "Javascript/Node.js",
-    "icon": "sungrow-local.png",
+    "icon": "sungrow-wifi-v31-local.png",
     "enabled": true,
     "extIcon": "",
     "readme": "",

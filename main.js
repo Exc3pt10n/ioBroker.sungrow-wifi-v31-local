@@ -4,9 +4,9 @@ const utils = require('@iobroker/adapter-core');
 const { SungrowModbus } = require('./lib/sungrowModbus');
 const { DATA_BLOCK, REGISTERS, WORK_STATES, decode } = require('./lib/registers');
 
-class SungrowLocal extends utils.Adapter {
+class SungrowWifiV31Local extends utils.Adapter {
     constructor(options = {}) {
-        super({ ...options, name: 'sungrow-local' });
+        super({ ...options, name: 'sungrow-wifi-v31-local' });
         this.on('ready', this.onReady.bind(this));
         this.on('unload', this.onUnload.bind(this));
         this.pollTimer = null;
@@ -99,7 +99,7 @@ class SungrowLocal extends utils.Adapter {
 }
 
 if (require.main !== module) {
-    module.exports = options => new SungrowLocal(options);
+    module.exports = options => new SungrowWifiV31Local(options);
 } else {
-    new SungrowLocal();
+    new SungrowWifiV31Local();
 }
