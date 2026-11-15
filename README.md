@@ -1,4 +1,4 @@
-# ioBroker.sungrow-local
+# ioBroker.sungrow-wifi-v31-local
 
 Liest Sungrow-String-Wechselrichter (getestet: **SG3K6-D** mit WLAN-Stick, Firmware WiFi V31_001_247) **lokal** über Modbus TCP des WLAN-Sticks aus, ganz ohne Cloud.
 
@@ -12,10 +12,13 @@ Liest Sungrow-String-Wechselrichter (getestet: **SG3K6-D** mit WLAN-Stick, Firmw
 
 ## Installation
 
-In der ioBroker-Admin-Oberfläche: *Adapter → „Installieren aus eigener URL“* mit
+Auf dem ioBroker-Server in der Konsole:
 
-- `https://github.com/Exc3pt10n/ioBroker.sungrow-local/tarball/release` (letztes Release, empfohlen) oder
-- `https://github.com/Exc3pt10n/ioBroker.sungrow-local/tarball/main` (Entwicklungsstand).
+```bash
+iobroker url https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local/tarball/release
+```
+
+`tarball/release` ist das letzte Release (empfohlen), `tarball/main` der Entwicklungsstand.
 
 Danach eine Instanz anlegen.
 
@@ -33,7 +36,7 @@ Es darf kein anderer Modbus-Client gleichzeitig auf den Stick zugreifen, z. B. d
 
 ## Datenpunkte
 
-`sungrow-local.0.inverter.*`
+`sungrow-wifi-v31-local.0.inverter.*`
 
 | Datenpunkt | Register | Einheit |
 |---|---|---|
@@ -59,8 +62,8 @@ Nachts ist der Wechselrichter aus und antwortet nicht. `info.connection` steht d
 ## Schnelltest ohne ioBroker
 
 ```bash
-git clone https://github.com/Exc3pt10n/ioBroker.sungrow-local.git
-cd ioBroker.sungrow-local
+git clone https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local.git
+cd ioBroker.sungrow-wifi-v31-local
 node tools/test-dongle.js <IP-des-Sticks> [Slave-ID] [auto|on|off]
 ```
 
@@ -84,9 +87,12 @@ Changelog-Abschnitt `### X.Y.Z (JJJJ-MM-TT)` mit (Details in `CLAUDE.md`). Nach 
 setzt GitHub Actions den Tag `vX.Y.Z`, legt das GitHub-Release an und aktualisiert den Branch `release`.
 
 Eine bestimmte Version installieren:
-`https://github.com/Exc3pt10n/ioBroker.sungrow-local/tarball/v0.4.0`
+`https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local/tarball/v0.5.0`
 
 ## Changelog
+### 0.5.0 (2026-11-15)
+* (Sebastian) **Breaking:** Adapter und Repository umbenannt von `sungrow-local` in `sungrow-wifi-v31-local`. Den neuen Adapter installieren, eine neue Instanz anlegen und die Einstellungen übernehmen; die Datenpunkte liegen jetzt unter `sungrow-wifi-v31-local.0.*`. Danach den alten Adapter `sungrow-local` deinstallieren.
+
 ### 0.4.0 (2026-11-14)
 * (Sebastian) **Breaking:** Node.js 22 oder neuer erforderlich (Node.js 20 wird nicht mehr unterstützt)
 * (Sebastian) Releases entstehen jetzt automatisch über GitHub Actions; stabile Installation über `tarball/release`

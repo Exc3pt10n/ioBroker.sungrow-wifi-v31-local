@@ -48,8 +48,8 @@ Wird die Node-Mindestversion geändert: `engines` in `package.json`/`package-loc
 
 | Zweck | URL für „Installieren aus eigener URL“ bzw. `iobroker url` |
 |---|---|
-| stabil (letztes Release) | `https://github.com/Exc3pt10n/ioBroker.sungrow-local/tarball/release` |
-| Entwicklungsstand | `https://github.com/Exc3pt10n/ioBroker.sungrow-local/tarball/main` |
+| stabil (letztes Release) | `https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local/tarball/release` |
+| Entwicklungsstand | `https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local/tarball/main` |
 
 ## Prüfen vor dem Push
 
