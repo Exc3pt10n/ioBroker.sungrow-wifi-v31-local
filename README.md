@@ -1,44 +1,47 @@
+![Logo](admin/sungrow-wifi-v31-local.png)
+
 # ioBroker.sungrow-wifi-v31-local
 
-Liest Sungrow-String-Wechselrichter (getestet: **SG3K6-D** mit WLAN-Stick, Firmware WiFi V31_001_247) **lokal** über Modbus TCP des WLAN-Sticks aus, ganz ohne Cloud.
+[![NPM version](https://img.shields.io/npm/v/iobroker.sungrow-wifi-v31-local.svg)](https://www.npmjs.com/package/iobroker.sungrow-wifi-v31-local)
+[![Test and Release](https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local/actions/workflows/test-and-release.yml)
 
-- Erkennt automatisch, ob der Stick die AES-Verschlüsselung neuerer Sungrow-Firmware nutzt, und spricht dann verschlüsselt.
-- Trennt nach jeder Abfrage, weil die Sticks oft nur **eine** Verbindung gleichzeitig zulassen. Eine hängende Verbindung blockiert sonst alle weiteren.
+**Deutsche Beschreibung:** [docs/de/README.md](docs/de/README.md)
 
-## Voraussetzungen
+Reads [Sungrow](https://en.sungrowpower.com/) string inverters **locally** via Modbus TCP of the WiFi dongle, without any cloud.
+Tested with a **SG3K6-D** and WiFi dongle firmware WiFi V31_001_247.
 
-- ioBroker mit js-controller ≥ 5.0.19 und Admin ≥ 6
-- Node.js 22 oder neuer
+- Detects automatically whether the dongle uses the AES encryption of newer Sungrow firmware and then talks encrypted.
+- Disconnects after every poll, because the dongles often allow only **one** connection at a time. A hanging connection would otherwise block all others.
+
+## Requirements
+
+- ioBroker with js-controller >= 6.0.11 and admin >= 7.6.20
+- Node.js 22 or newer
+- Sungrow string inverter with WiFi dongle in the same network
 
 ## Installation
 
-Auf dem ioBroker-Server in der Konsole:
+Install the adapter in the ioBroker admin from the adapter list or with
+*Adapters → Install from custom URL → npm* and the package name `iobroker.sungrow-wifi-v31-local`.
+Then create an instance.
 
-```bash
-iobroker url https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local/tarball/release
-```
+## Configuration
 
-`tarball/release` ist das letzte Release (empfohlen), `tarball/main` der Entwicklungsstand.
-
-Danach eine Instanz anlegen.
-
-## Konfiguration
-
-| Feld | Bedeutung |
+| Field | Meaning |
 |---|---|
-| IP-Adresse | IP des WLAN-Sticks. Im Router fest zuweisen. |
-| Port / Slave-ID | 502 / 1 |
-| Verschlüsselung | „Automatisch erkennen“ (Standard), „Immer verschlüsselt“ oder „Aus“ |
-| Abfrageintervall | Standard 30 s |
-| Verbindung offen halten | Standard aus. Nur einschalten, wenn kein anderes Programm auf den Stick zugreift. |
+| IP address | IP address of the WiFi dongle. Assign a fixed address in your router. |
+| Port / Slave ID | 502 / 1 |
+| Encryption | "Detect automatically" (default), "Always encrypted" or "Off" |
+| Poll interval | Default 30 s, 5 s to 3600 s |
+| Keep connection open | Default off. Only enable it if no other program accesses the dongle. |
 
-Es darf kein anderer Modbus-Client gleichzeitig auf den Stick zugreifen, z. B. der ioBroker-Modbus-Adapter oder evcc.
+No other Modbus client may access the dongle at the same time, e.g. the ioBroker Modbus adapter or evcc.
 
-## Datenpunkte
+## Data points
 
 `sungrow-wifi-v31-local.0.inverter.*`
 
-| Datenpunkt | Register | Einheit |
+| Data point | Register | Unit |
 |---|---|---|
 | `activePower` | 5031–5032 | W |
 | `dcPower` | 5017–5018 | W |
@@ -52,60 +55,47 @@ Es darf kein anderer Modbus-Client gleichzeitig auf den Stick zugreifen, z. B. d
 | `powerFactor` | 5035 | |
 | `reactivePower` | 5033–5034 | var |
 | `runningTime` | 5006–5007 | h |
-| `workState` / `workStateText` | 5038 | Code / Text |
+| `workState` / `workStateText` | 5038 | code / text |
 | `deviceTypeCode`, `nominalPower` | 5000, 5001 | –, kW |
 
-Die Register stammen aus Sungrows Protokoll für String-Wechselrichter. Es sind Input-Register mit den dokumentierten Nummern; die Protokolladresse ist die Nummer minus 1. U32-Werte stehen mit dem niederwertigen Wort zuerst.
+`workStateText` contains the work state as English text, e.g. `Running`, `Standby`, `Stopped`, `Derating` or `Fault`.
 
-Nachts ist der Wechselrichter aus und antwortet nicht. `info.connection` steht dann auf `false`, die letzten Werte bleiben erhalten.
+`sungrow-wifi-v31-local.0.info.*`
 
-## Schnelltest ohne ioBroker
+| Data point | Meaning |
+|---|---|
+| `connection` | `true` while the inverter answers |
+| `lastUpdate` | Time of the last successful poll |
 
-```bash
-git clone https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local.git
-cd ioBroker.sungrow-wifi-v31-local
-node tools/test-dongle.js <IP-des-Sticks> [Slave-ID] [auto|on|off]
-```
+The registers come from Sungrow's communication protocol for string inverters. They are input registers with the
+documented numbers; the protocol address is the number minus 1. U32 values have the low word first.
 
-## Danksagung
+At night the inverter is switched off and does not answer. `info.connection` is then `false`, the last values are kept.
 
-Die Verschlüsselung ist nach der Community-Bibliothek [SungrowModbusTcpClient](https://github.com/rpvelloso/Sungrow-Modbus) nachgebaut.
+## Credits
 
-## Entwicklung
+The encryption is reimplemented after the community library
+[SungrowModbusTcpClient](https://github.com/rpvelloso/Sungrow-Modbus).
 
-```bash
-npm ci
-npm run lint
-npm test                 # Unit-Tests + Paketprüfung
-npm run test:integration # Startet den Adapter in einer Test-ioBroker-Instanz (mit simuliertem WLAN-Stick)
-```
-
-### Releases
-
-Jeder Pull Request, der den Adapter im Betrieb verändert, erhöht die Version von Hand und bringt einen
-Changelog-Abschnitt `### X.Y.Z (JJJJ-MM-TT)` mit (Details in `CLAUDE.md`). Nach dem Merge auf `main`
-setzt GitHub Actions den Tag `vX.Y.Z`, legt das GitHub-Release an und aktualisiert den Branch `release`.
-
-Eine bestimmte Version installieren:
-`https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local/tarball/v0.5.0`
+Development notes: [DEVELOPMENT.md](DEVELOPMENT.md)
 
 ## Changelog
-### 0.5.0 (2026-11-15)
-* (Sebastian) **Breaking:** Adapter und Repository umbenannt von `sungrow-local` in `sungrow-wifi-v31-local`. Den neuen Adapter installieren, eine neue Instanz anlegen und die Einstellungen übernehmen; die Datenpunkte liegen jetzt unter `sungrow-wifi-v31-local.0.*`. Danach den alten Adapter `sungrow-local` deinstallieren.
+<!--
+    Placeholder for the next version (at the beginning of the line):
+    ### **WORK IN PROGRESS**
+-->
+### 0.6.0 (2026-11-26)
+- (Exc3pt10n) **Breaking:** The adapter is now distributed via npm; installing from GitHub is no longer supported
+- (Exc3pt10n) **Breaking:** Data point names, log messages and the texts in `inverter.workStateText` are now English (e.g. `Running` instead of `Betrieb`); adjust scripts that compare these texts
+- (Exc3pt10n) **Breaking:** Requires js-controller 6.0.11 and admin 7.6.20
+- (Exc3pt10n) Instance settings translated into all ioBroker languages
+- (Exc3pt10n) Poll interval, port and slave ID are validated in the adapter as well
+- (Exc3pt10n) `info.lastUpdate` is created on installation
 
-### 0.4.0 (2026-11-14)
-* (Sebastian) **Breaking:** Node.js 22 oder neuer erforderlich (Node.js 20 wird nicht mehr unterstützt)
-* (Sebastian) Releases entstehen jetzt automatisch über GitHub Actions; stabile Installation über `tarball/release`
+Older entries: [CHANGELOG_OLD.md](CHANGELOG_OLD.md)
 
-### 0.3.0 (2026-11-11)
-* (Sebastian) **Breaking:** Umbenannt von `sungrow-cloud` in `sungrow-local`, Cloud-Modus entfernt (siehe Git-Historie)
+## License
 
-### 0.2.0 (2026-11-11)
-* (Sebastian) Lokaler Modus über Modbus TCP inkl. Sungrow-Verschlüsselung
+MIT License, see [LICENSE](LICENSE)
 
-### 0.1.0 (2026-11-10)
-* (Sebastian) Erste Version (iSolarCloud API)
-
-## Lizenz
-
-MIT
+Copyright (c) 2026 Exc3pt10n <kontakt@jansesoft.de>

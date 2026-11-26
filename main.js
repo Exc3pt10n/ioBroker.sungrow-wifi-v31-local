@@ -4,6 +4,26 @@ const utils = require('@iobroker/adapter-core');
 const { SungrowModbus } = require('./lib/sungrowModbus');
 const { DATA_BLOCK, REGISTERS, WORK_STATES, decode } = require('./lib/registers');
 
+const MIN_INTERVAL_S = 5;
+const MAX_INTERVAL_S = 3600;
+
+/**
+ * Parse a configuration value as integer and fall back to a default if it is missing or out of range.
+ *
+ * @param {unknown} value
+ * @param {number} min
+ * @param {number} max
+ * @param {number} def
+ * @returns {number}
+ */
+function intInRange(value, min, max, def) {
+    const n = typeof value === 'number' ? value : parseInt(String(value), 10);
+    if (!Number.isInteger(n)) {
+        return def;
+    }
+    return Math.min(max, Math.max(min, n));
+}
+
 class SungrowWifiV31Local extends utils.Adapter {
     constructor(options = {}) {
         super({ ...options, name: 'sungrow-wifi-v31-local' });
@@ -18,18 +38,19 @@ class SungrowWifiV31Local extends utils.Adapter {
         await this.setStateAsync('info.connection', false, true);
         const c = this.config;
         if (!c.host) {
-            this.log.error('Bitte die IP-Adresse des WLAN-Sticks in der Konfiguration eintragen.');
+            this.log.error('Please enter the IP address of the WiFi dongle in the instance settings.');
             return;
         }
         this.mb = new SungrowModbus({
-            host: c.host.trim(),
-            port: parseInt(c.port, 10) || 502,
-            unitId: c.unitId === '' || c.unitId === undefined ? 1 : parseInt(c.unitId, 10),
+            host: String(c.host).trim(),
+            port: intInRange(c.port, 1, 65535, 502),
+            unitId: intInRange(c.unitId, 0, 247, 1),
             timeout: 5000,
-            encryption: c.encryption || 'auto',
+            encryption: ['auto', 'on', 'off'].includes(c.encryption) ? c.encryption : 'auto',
         });
-        this.interval = Math.max(5, parseInt(c.interval, 10) || 30) * 1000;
-        await this.extendObjectAsync('inverter', { type: 'channel', common: { name: 'Wechselrichter' }, native: {} });
+        // Validated here as well, not only in the admin UI: 5 s ... 1 h
+        this.interval = intInRange(c.interval, MIN_INTERVAL_S, MAX_INTERVAL_S, 30) * 1000;
+        await this.extendObjectAsync('inverter', { type: 'channel', common: { name: 'Inverter' }, native: {} });
         await this.poll();
     }
 
@@ -51,7 +72,7 @@ class SungrowWifiV31Local extends utils.Adapter {
         try {
             const regs = await this.mb.readRegisters(4, DATA_BLOCK.start - 1, DATA_BLOCK.count);
             if (this.online !== true) {
-                this.log.info(`Verbunden mit ${this.mb.host}: ${this.mb.keyInfo}`);
+                this.log.info(`Connected to ${this.mb.host}: ${this.mb.keyInfo}`);
             }
             for (const def of REGISTERS) {
                 const val = decode(regs, DATA_BLOCK.start, def);
@@ -59,19 +80,18 @@ class SungrowWifiV31Local extends utils.Adapter {
                 await this.ensureState(id, { name: def.name, type: 'number', role: def.role, unit: def.unit });
                 await this.setStateAsync(id, val, true);
                 if (def.id === 'workState') {
-                    await this.ensureState('inverter.workStateText', { name: 'Betriebszustand', type: 'string', role: 'text' });
-                    await this.setStateAsync('inverter.workStateText', WORK_STATES[val] || `Unbekannt (0x${val.toString(16)})`, true);
+                    await this.ensureState('inverter.workStateText', { name: 'Work state', type: 'string', role: 'text' });
+                    await this.setStateAsync('inverter.workStateText', WORK_STATES[val] || `Unknown (0x${val.toString(16)})`, true);
                 }
             }
-            await this.ensureState('info.lastUpdate', { name: 'Letzte Aktualisierung', type: 'number', role: 'date' });
             await this.setStateAsync('info.lastUpdate', Date.now(), true);
             ok = true;
         } catch (err) {
             // At night the inverter is unpowered and cannot answer: log once, not every poll
             if (this.online !== false) {
-                this.log.warn(`Keine Daten vom Wechselrichter (${this.mb.keyInfo || 'kein Handshake'}): ${err.message}`);
+                this.log.warn(`No data from inverter (${this.mb.keyInfo || 'no handshake'}): ${err.message}`);
             } else {
-                this.log.debug(`Weiterhin keine Daten: ${err.message}`);
+                this.log.debug(`Still no data: ${err.message}`);
             }
         }
         if (this.online !== ok) {
