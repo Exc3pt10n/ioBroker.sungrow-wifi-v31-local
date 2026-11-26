@@ -6,19 +6,19 @@ const { startDongle } = require("./mockDongle");
 const PORT = 18502;
 
 tests.integration(path.join(__dirname, ".."), {
-  // Stabile js-controller-Version statt der nächtlichen Entwicklungsversion ("dev"):
-  // entspricht den echten Installationen und bricht nicht bei fehlerhaften Nightly-Builds
+  // Stable js-controller version instead of the nightly development version ("dev"):
+  // matches real installations and does not break on faulty nightly builds
   controllerVersion: "latest",
   defineAdditionalTests({ suite }) {
     for (const [i, encrypted] of [false, true].entries()) {
-      suite(`Abruf vom (simulierten) WLAN-Stick, ${encrypted ? "verschlüsselt" : "unverschlüsselt"}`, (getHarness) => {
+      suite(`Poll of the (simulated) WiFi dongle, ${encrypted ? "encrypted" : "plain"}`, (getHarness) => {
         let dongle;
         before(async () => {
           dongle = await startDongle({ encrypted, port: PORT + i });
         });
         after(() => dongle && dongle.close());
 
-        it("schreibt die Datenpunkte und setzt info.connection", async function () {
+        it("writes the data points and sets info.connection", async function () {
           this.timeout(60000);
           const harness = getHarness();
           await harness.changeAdapterConfig("sungrow-wifi-v31-local", {
@@ -33,18 +33,20 @@ tests.integration(path.join(__dirname, ".."), {
           chai.expect((await get("inverter.totalYield")).val).to.equal(100000);
           chai.expect((await get("inverter.temperature")).val).to.equal(-2);
           chai.expect((await get("inverter.nominalPower")).val).to.equal(3.6);
-          chai.expect((await get("inverter.workStateText")).val).to.equal("Betrieb");
+          chai.expect((await get("inverter.workStateText")).val).to.equal("Running");
           chai.expect((await get("inverter.dailyYield")).ack).to.equal(true);
 
           const obj = await harness.objects.getObjectAsync("sungrow-wifi-v31-local.0.inverter.activePower");
           chai.expect(obj.common.unit).to.equal("W");
+          chai.expect(obj.common.name).to.equal("AC active power");
+          chai.expect((await get("info.lastUpdate")).val).to.be.a("number");
           await harness.stopAdapter();
         });
       });
     }
 
-    suite("Stick nicht erreichbar", (getHarness) => {
-      it("startet trotzdem und meldet keine Verbindung", async function () {
+    suite("Dongle unreachable", (getHarness) => {
+      it("starts anyway and reports no connection", async function () {
         this.timeout(60000);
         const harness = getHarness();
         await harness.changeAdapterConfig("sungrow-wifi-v31-local", {

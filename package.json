@@ -1,9 +1,9 @@
 {
   "name": "iobroker.sungrow-wifi-v31-local",
-  "version": "0.5.0",
-  "description": "Sungrow Wechselrichter lokal über Modbus TCP des WLAN-Sticks (inkl. Sungrow-Verschlüsselung)",
+  "version": "0.6.0",
+  "description": "Reads Sungrow string inverters locally via Modbus TCP of the WiFi dongle (incl. Sungrow encryption)",
   "author": {
-    "name": "Sebastian",
+    "name": "Exc3pt10n",
     "email": "kontakt@jansesoft.de"
   },
   "homepage": "https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local",
@@ -21,11 +21,11 @@
     "url": "https://github.com/Exc3pt10n/ioBroker.sungrow-wifi-v31-local"
   },
   "dependencies": {
-    "@iobroker/adapter-core": "^3.3.2"
+    "@iobroker/adapter-core": "^3.4.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",
-    "@iobroker/testing": "^5.1.1",
+    "@iobroker/testing": "^6.3.3",
     "@types/chai": "^5.2.2",
     "@types/chai-as-promised": "^8.0.2",
     "@types/mocha": "^10.0.10",

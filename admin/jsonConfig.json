@@ -1,82 +1,235 @@
 {
+  "i18n": true,
   "type": "panel",
-  "i18n": false,
   "items": {
     "_hdr": {
       "type": "header",
-      "text": "Modbus TCP (WLAN-Stick)",
+      "text": {
+        "en": "Modbus TCP (WiFi dongle)",
+        "de": "Modbus TCP (WLAN-Stick)",
+        "ru": "Modbus TCP (WiFi-модуль)",
+        "pt": "Modbus TCP (dongle WiFi)",
+        "nl": "Modbus TCP (wifi-dongle)",
+        "fr": "Modbus TCP (dongle WiFi)",
+        "it": "Modbus TCP (dongle WiFi)",
+        "es": "Modbus TCP (dongle WiFi)",
+        "pl": "Modbus TCP (moduł WiFi)",
+        "uk": "Modbus TCP (WiFi-модуль)",
+        "zh-cn": "Modbus TCP（WiFi 模块）"
+      },
       "size": 3,
       "newLine": true
     },
     "host": {
       "type": "text",
-      "label": "IP-Adresse des WLAN-Sticks",
-      "help": "Im Router fest zuweisen",
-      "newLine": true,
-      "xs": 12,
-      "sm": 6,
-      "md": 4,
-      "lg": 3
-    },
-    "port": {
-      "type": "number",
-      "label": "Port",
-      "min": 1,
-      "max": 65535,
-      "xs": 6,
-      "sm": 3,
-      "md": 2,
-      "lg": 2
-    },
-    "unitId": {
-      "type": "number",
-      "label": "Slave-ID",
-      "help": "Standard 1",
-      "min": 0,
-      "max": 247,
-      "xs": 6,
-      "sm": 3,
-      "md": 2,
-      "lg": 2
-    },
-    "encryption": {
-      "type": "select",
-      "label": "Verschlüsselung",
+      "label": {
+        "en": "IP address of the WiFi dongle",
+        "de": "IP-Adresse des WLAN-Sticks",
+        "ru": "IP-адрес WiFi-модуля",
+        "pt": "Endereço IP do dongle WiFi",
+        "nl": "IP-adres van de wifi-dongle",
+        "fr": "Adresse IP du dongle WiFi",
+        "it": "Indirizzo IP del dongle WiFi",
+        "es": "Dirección IP del dongle WiFi",
+        "pl": "Adres IP modułu WiFi",
+        "uk": "IP-адреса WiFi-модуля",
+        "zh-cn": "WiFi 模块的 IP 地址"
+      },
+      "help": {
+        "en": "Assign a fixed address in your router",
+        "de": "Im Router fest zuweisen",
+        "ru": "Назначьте фиксированный адрес в роутере",
+        "pt": "Atribua um endereço fixo no router",
+        "nl": "Wijs een vast adres toe in de router",
+        "fr": "Attribuez une adresse fixe dans le routeur",
+        "it": "Assegnare un indirizzo fisso nel router",
+        "es": "Asigne una dirección fija en el router",
+        "pl": "Przypisz stały adres w routerze",
+        "uk": "Призначте фіксовану адресу в роутері",
+        "zh-cn": "请在路由器中分配固定地址"
+      },
       "newLine": true,
       "xs": 12,
       "sm": 6,
       "md": 4,
       "lg": 3,
+      "xl": 3
+    },
+    "port": {
+      "type": "number",
+      "label": {
+        "en": "Port",
+        "de": "Port",
+        "ru": "Порт",
+        "pt": "Porta",
+        "nl": "Poort",
+        "fr": "Port",
+        "it": "Porta",
+        "es": "Puerto",
+        "pl": "Port",
+        "uk": "Порт",
+        "zh-cn": "端口"
+      },
+      "min": 1,
+      "max": 65535,
+      "xs": 6,
+      "sm": 3,
+      "md": 2,
+      "lg": 2,
+      "xl": 2
+    },
+    "unitId": {
+      "type": "number",
+      "label": {
+        "en": "Slave ID",
+        "de": "Slave-ID",
+        "ru": "Slave ID",
+        "pt": "Slave ID",
+        "nl": "Slave-ID",
+        "fr": "ID esclave",
+        "it": "Slave ID",
+        "es": "Slave ID",
+        "pl": "Slave ID",
+        "uk": "Slave ID",
+        "zh-cn": "从站 ID"
+      },
+      "help": {
+        "en": "Default 1",
+        "de": "Standard 1",
+        "ru": "По умолчанию 1",
+        "pt": "Padrão 1",
+        "nl": "Standaard 1",
+        "fr": "Par défaut 1",
+        "it": "Predefinito 1",
+        "es": "Predeterminado 1",
+        "pl": "Domyślnie 1",
+        "uk": "Типово 1",
+        "zh-cn": "默认 1"
+      },
+      "min": 0,
+      "max": 247,
+      "xs": 6,
+      "sm": 3,
+      "md": 2,
+      "lg": 2,
+      "xl": 2
+    },
+    "encryption": {
+      "type": "select",
+      "label": {
+        "en": "Encryption",
+        "de": "Verschlüsselung",
+        "ru": "Шифрование",
+        "pt": "Encriptação",
+        "nl": "Versleuteling",
+        "fr": "Chiffrement",
+        "it": "Crittografia",
+        "es": "Cifrado",
+        "pl": "Szyfrowanie",
+        "uk": "Шифрування",
+        "zh-cn": "加密"
+      },
+      "newLine": true,
+      "xs": 12,
+      "sm": 6,
+      "md": 4,
+      "lg": 3,
+      "xl": 3,
       "options": [
         {
-          "label": "Automatisch erkennen",
+          "label": {
+            "en": "Detect automatically",
+            "de": "Automatisch erkennen",
+            "ru": "Определять автоматически",
+            "pt": "Detetar automaticamente",
+            "nl": "Automatisch detecteren",
+            "fr": "Détecter automatiquement",
+            "it": "Rileva automaticamente",
+            "es": "Detectar automáticamente",
+            "pl": "Wykryj automatycznie",
+            "uk": "Визначати автоматично",
+            "zh-cn": "自动检测"
+          },
           "value": "auto"
         },
         {
-          "label": "Immer verschlüsselt",
+          "label": {
+            "en": "Always encrypted",
+            "de": "Immer verschlüsselt",
+            "ru": "Всегда зашифровано",
+            "pt": "Sempre encriptado",
+            "nl": "Altijd versleuteld",
+            "fr": "Toujours chiffré",
+            "it": "Sempre crittografato",
+            "es": "Siempre cifrado",
+            "pl": "Zawsze szyfrowane",
+            "uk": "Завжди зашифровано",
+            "zh-cn": "始终加密"
+          },
           "value": "on"
         },
         {
-          "label": "Aus (Standard-Modbus)",
+          "label": {
+            "en": "Off (standard Modbus)",
+            "de": "Aus (Standard-Modbus)",
+            "ru": "Выкл. (стандартный Modbus)",
+            "pt": "Desligado (Modbus padrão)",
+            "nl": "Uit (standaard Modbus)",
+            "fr": "Désactivé (Modbus standard)",
+            "it": "Disattivato (Modbus standard)",
+            "es": "Desactivado (Modbus estándar)",
+            "pl": "Wyłączone (standardowy Modbus)",
+            "uk": "Вимкнено (стандартний Modbus)",
+            "zh-cn": "关闭（标准 Modbus）"
+          },
           "value": "off"
         }
       ]
     },
     "interval": {
       "type": "number",
-      "label": "Abfrageintervall (Sekunden)",
+      "label": {
+        "en": "Poll interval (seconds)",
+        "de": "Abfrageintervall (Sekunden)",
+        "ru": "Интервал опроса (секунды)",
+        "pt": "Intervalo de consulta (segundos)",
+        "nl": "Pollinginterval (seconden)",
+        "fr": "Intervalle d’interrogation (secondes)",
+        "it": "Intervallo di interrogazione (secondi)",
+        "es": "Intervalo de consulta (segundos)",
+        "pl": "Interwał odpytywania (sekundy)",
+        "uk": "Інтервал опитування (секунди)",
+        "zh-cn": "轮询间隔（秒）"
+      },
       "min": 5,
       "max": 3600,
       "xs": 12,
       "sm": 6,
       "md": 4,
-      "lg": 3
+      "lg": 3,
+      "xl": 3
     },
     "keepConnection": {
       "type": "checkbox",
-      "label": "Verbindung offen halten (sonst nach jeder Abfrage trennen, damit andere Programme zugreifen können)",
+      "label": {
+        "en": "Keep connection open (otherwise disconnect after each poll so that other programs can access the dongle)",
+        "de": "Verbindung offen halten (sonst nach jeder Abfrage trennen, damit andere Programme zugreifen können)",
+        "ru": "Держать соединение открытым (иначе отключаться после каждого опроса, чтобы другие программы могли обращаться к модулю)",
+        "pt": "Manter a ligação aberta (caso contrário, desligar após cada consulta para que outros programas possam aceder ao dongle)",
+        "nl": "Verbinding openhouden (anders na elke poll verbreken zodat andere programma’s de dongle kunnen gebruiken)",
+        "fr": "Garder la connexion ouverte (sinon déconnecter après chaque interrogation pour que d’autres programmes puissent accéder au dongle)",
+        "it": "Mantieni la connessione aperta (altrimenti disconnetti dopo ogni interrogazione affinché altri programmi possano accedere al dongle)",
+        "es": "Mantener la conexión abierta (si no, desconectar tras cada consulta para que otros programas puedan acceder al dongle)",
+        "pl": "Utrzymuj połączenie otwarte (w przeciwnym razie rozłączaj po każdym odpytaniu, aby inne programy mogły korzystać z modułu)",
+        "uk": "Тримати з’єднання відкритим (інакше від’єднуватися після кожного опитування, щоб інші програми мали доступ до модуля)",
+        "zh-cn": "保持连接（否则每次轮询后断开，以便其他程序访问该模块）"
+      },
       "newLine": true,
-      "xs": 12
+      "xs": 12,
+      "sm": 12,
+      "md": 12,
+      "lg": 12,
+      "xl": 12
     }
   }
 }
